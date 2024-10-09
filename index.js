@@ -36,3 +36,21 @@ app.put('/customers/:id', (req, res) => {
     clientes[clienteIndex] = { id, name, email };
     res.status(200).json(clientes[clienteIndex]);
 });
+
+// Remoção de cliente por ID
+app.delete('/customers/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const clienteIndex = clientes.findIndex(c => c.id === id);
+
+    if (clienteIndex === -1) {
+        return res.status(404).json({ message: 'Cliente não encontrado' });
+    }
+
+    clientes.splice(clienteIndex, 1);
+    res.status(204).send(); // Sem conteúdo
+});
+
+// Inicia o servidor
+app.listen(port, () => {
+    console.log(`Servidor ProPlayer Store rodando na porta ${port}`);
+});
