@@ -22,3 +22,17 @@ app.get('/customers/:id', (req, res) => {
 
     res.status(200).json(cliente);
 });
+
+// Alteração de cliente por ID
+app.put('/customers/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const { name, email } = req.body;
+    const clienteIndex = clientes.findIndex(c => c.id === id);
+
+    if (clienteIndex === -1) {
+        return res.status(404).json({ message: 'Cliente não encontrado' });
+    }
+
+    clientes[clienteIndex] = { id, name, email };
+    res.status(200).json(clientes[clienteIndex]);
+});
